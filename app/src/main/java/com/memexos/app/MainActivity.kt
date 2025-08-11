@@ -1,22 +1,52 @@
 package com.memexos.app
 
+import android.Manifest
+import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.util.Log
 import android.view.KeyEvent
+import android.view.LayoutInflater
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.inputmethod.EditorInfo
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
+import com.memexos.app.audio.AudioRecorder
+import com.memexos.app.whisper.WhisperService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
+    
+    companion object {
+        private const val TAG = "MainActivity"
+        private const val PERMISSION_REQUEST_RECORD_AUDIO = 1001
+        private const val MAX_RECORDING_DURATION_MS = 60000L // 60 seconds
+    }
     
     private lateinit var webView: WebView
     private lateinit var urlEditText: TextInputEditText
@@ -26,6 +56,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var progressOverlay: FrameLayout
     private lateinit var progressText: TextView
     
+    // Audio recording components
+    private lateinit var audioRecorder: AudioRecorder
+    private lateinit var whisperService: WhisperService
+    private var recordingDialog: AlertDialog? = null
+    private var recordingTimer: CountDownTimer? = null
+    private var pulseAnimator: ObjectAnimator? = null
+    private var recordingStartTime: Long = 0
+    
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +71,9 @@ class MainActivity : AppCompatActivity() {
         
         // Initialize views
         initializeViews()
+        
+        // Initialize audio components
+        initializeAudioComponents()
         
         // Setup toolbar
         setSupportActionBar(toolbar)
@@ -49,6 +90,22 @@ class MainActivity : AppCompatActivity() {
         
         // Load initial URL (can be changed to any default URL)
         webView.loadUrl("https://www.google.com")
+    }
+    
+    private fun initializeAudioComponents() {
+        audioRecorder = AudioRecorder()
+        whisperService = WhisperService(this)
+        
+        // Initialize Whisper model (you'll need to place a model file in assets)
+        lifecycleScope.launch {
+            try {
+                // TODO: Add your Whisper model file to assets folder
+                // Example: whisperService.initializeFromAsset("models/ggml-tiny.bin")
+                Log.d(TAG, "Whisper service initialized")
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to initialize Whisper", e)
+            }
+        }
     }
     
     private fun initializeViews() {
@@ -121,26 +178,279 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun startRecording() {
-        // Show progress overlay
-        showProgressOverlay("Recording...")
-        
-        // TODO: Implement actual recording logic with Whisper
-        // For now, simulate recording with a delay
-        webView.postDelayed({
-            processRecording()
-        }, 3000)
+        // Check and request permission
+        if (checkRecordingPermission()) {
+            showRecordingDialog()
+        } else {
+            requestRecordingPermission()
+        }
     }
     
-    private fun processRecording() {
-        // Update progress text
-        progressText.text = "Processing speech..."
+    private fun checkRecordingPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.RECORD_AUDIO
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+    
+    private fun requestRecordingPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)) {
+            MaterialAlertDialogBuilder(this)
+                .setTitle("Microphone Permission Required")
+                .setMessage("This app needs microphone access to record voice commands for speech-to-text conversion.")
+                .setPositiveButton("Grant Permission") { _, _ ->
+                    ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(Manifest.permission.RECORD_AUDIO),
+                        PERMISSION_REQUEST_RECORD_AUDIO
+                    )
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
+        } else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.RECORD_AUDIO),
+                PERMISSION_REQUEST_RECORD_AUDIO
+            )
+        }
+    }
+    
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         
-        // TODO: Implement actual speech processing with Whisper
-        // For now, simulate processing with a delay
-        webView.postDelayed({
-            hideProgressOverlay()
-            // TODO: Execute the processed command
-        }, 2000)
+        if (requestCode == PERMISSION_REQUEST_RECORD_AUDIO) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, start recording
+                showRecordingDialog()
+            } else {
+                Toast.makeText(
+                    this,
+                    "Microphone permission is required for voice commands",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+    }
+    
+    private fun showRecordingDialog() {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_recording, null)
+        
+        val micPulseCircle = dialogView.findViewById<View>(R.id.micPulseCircle)
+        val timerText = dialogView.findViewById<TextView>(R.id.timerText)
+        val recordingStatusText = dialogView.findViewById<TextView>(R.id.recordingStatusText)
+        val stopButton = dialogView.findViewById<MaterialButton>(R.id.stopButton)
+        
+        // Create and show dialog
+        recordingDialog = MaterialAlertDialogBuilder(this)
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+        
+        recordingDialog?.show()
+        
+        // Start pulse animation
+        startPulseAnimation(micPulseCircle)
+        
+        // Start recording
+        startAudioRecording(timerText, recordingStatusText)
+        
+        // Setup stop button
+        stopButton.setOnClickListener {
+            stopAudioRecording()
+        }
+    }
+    
+    private fun startPulseAnimation(view: View) {
+        val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 1f, 1.2f, 1f)
+        val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f, 1.2f, 1f)
+        val alpha = PropertyValuesHolder.ofFloat(View.ALPHA, 0.3f, 0.6f, 0.3f)
+        
+        pulseAnimator = ObjectAnimator.ofPropertyValuesHolder(view, scaleX, scaleY, alpha).apply {
+            duration = 1500
+            repeatCount = ObjectAnimator.INFINITE
+            interpolator = AccelerateDecelerateInterpolator()
+            start()
+        }
+    }
+    
+    private fun startAudioRecording(timerText: TextView, statusText: TextView) {
+        recordingStartTime = System.currentTimeMillis()
+        
+        // Create output file in cache directory
+        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+        val audioFile = File(cacheDir, "recording_$timestamp.wav")
+        
+        // Start countdown timer (60 seconds max)
+        recordingTimer = object : CountDownTimer(MAX_RECORDING_DURATION_MS, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val elapsed = System.currentTimeMillis() - recordingStartTime
+                val seconds = (elapsed / 1000) % 60
+                val minutes = (elapsed / 1000) / 60
+                timerText.text = String.format(Locale.US, "%02d:%02d", minutes, seconds)
+                
+                // Show warning when approaching limit
+                if (millisUntilFinished <= 10000) {
+                    statusText.text = "Recording ending in ${millisUntilFinished / 1000}s..."
+                }
+            }
+            
+            override fun onFinish() {
+                stopAudioRecording()
+            }
+        }.start()
+        
+        // Start actual recording
+        lifecycleScope.launch {
+            try {
+                audioRecorder.startRecording(audioFile) { error ->
+                    runOnUiThread {
+                        Log.e(TAG, "Recording error", error)
+                        Toast.makeText(this@MainActivity, "Recording failed: ${error.message}", Toast.LENGTH_LONG).show()
+                        stopAudioRecording()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to start recording", e)
+                Toast.makeText(this@MainActivity, "Failed to start recording", Toast.LENGTH_LONG).show()
+                stopAudioRecording()
+            }
+        }
+    }
+    
+    private fun stopAudioRecording() {
+        // Stop timer
+        recordingTimer?.cancel()
+        recordingTimer = null
+        
+        // Stop animation
+        pulseAnimator?.cancel()
+        pulseAnimator = null
+        
+        // Dismiss recording dialog
+        recordingDialog?.dismiss()
+        recordingDialog = null
+        
+        // Show processing overlay
+        showProgressOverlay("Processing speech...")
+        
+        lifecycleScope.launch {
+            try {
+                // Stop recording
+                audioRecorder.stopRecording()
+                
+                // Get the recorded file
+                val recordings = cacheDir.listFiles { file ->
+                    file.name.startsWith("recording_") && file.name.endsWith(".wav")
+                }
+                
+                val latestRecording = recordings?.maxByOrNull { it.lastModified() }
+                
+                if (latestRecording != null && latestRecording.exists()) {
+                    // Process with Whisper
+                    processWithWhisper(latestRecording)
+                } else {
+                    hideProgressOverlay()
+                    Toast.makeText(this@MainActivity, "No recording found", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to stop recording", e)
+                hideProgressOverlay()
+                Toast.makeText(this@MainActivity, "Failed to process recording", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+    
+    private fun processWithWhisper(audioFile: File) {
+        lifecycleScope.launch {
+            try {
+                // Transcribe the audio file
+                val transcription = withContext(Dispatchers.IO) {
+                    whisperService.transcribeFile(audioFile)
+                }
+                
+                hideProgressOverlay()
+                
+                if (!transcription.isNullOrBlank()) {
+                    // Process the transcribed command
+                    processVoiceCommand(transcription)
+                } else {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Could not transcribe audio. Please try again.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                
+                // Clean up the audio file
+                audioFile.delete()
+                
+            } catch (e: Exception) {
+                Log.e(TAG, "Whisper processing failed", e)
+                hideProgressOverlay()
+                Toast.makeText(
+                    this@MainActivity,
+                    "Speech processing failed. Please try again.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+    }
+    
+    private fun processVoiceCommand(command: String) {
+        Log.d(TAG, "Voice command: $command")
+        
+        // Show the recognized text to user
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Voice Command Recognized")
+            .setMessage(command)
+            .setPositiveButton("Execute") { _, _ ->
+                executeCommand(command)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+    
+    private fun executeCommand(command: String) {
+        val lowerCommand = command.toLowerCase(Locale.US)
+        
+        when {
+            lowerCommand.contains("search") || lowerCommand.contains("google") -> {
+                val query = command.replace(Regex("search|google|for", RegexOption.IGNORE_CASE), "").trim()
+                val searchUrl = "https://www.google.com/search?q=${query.replace(" ", "+")}"
+                webView.loadUrl(searchUrl)
+            }
+            lowerCommand.contains("go to") || lowerCommand.contains("navigate to") || lowerCommand.contains("open") -> {
+                val url = command.replace(Regex("go to|navigate to|open", RegexOption.IGNORE_CASE), "").trim()
+                loadUrl(url)
+            }
+            lowerCommand.contains("back") -> {
+                if (webView.canGoBack()) {
+                    webView.goBack()
+                }
+            }
+            lowerCommand.contains("forward") -> {
+                if (webView.canGoForward()) {
+                    webView.goForward()
+                }
+            }
+            lowerCommand.contains("refresh") || lowerCommand.contains("reload") -> {
+                webView.reload()
+            }
+            lowerCommand.contains("scroll down") -> {
+                webView.scrollBy(0, 500)
+            }
+            lowerCommand.contains("scroll up") -> {
+                webView.scrollBy(0, -500)
+            }
+            else -> {
+                Toast.makeText(this, "Command not recognized: $command", Toast.LENGTH_LONG).show()
+            }
+        }
     }
     
     private fun showProgressOverlay(message: String) {
@@ -157,6 +467,25 @@ class MainActivity : AppCompatActivity() {
             webView.goBack()
         } else {
             super.onBackPressed()
+        }
+    }
+    
+    override fun onDestroy() {
+        super.onDestroy()
+        
+        // Clean up resources
+        recordingTimer?.cancel()
+        pulseAnimator?.cancel()
+        recordingDialog?.dismiss()
+        
+        // Release Whisper resources
+        whisperService.release()
+        
+        // Stop any ongoing recording
+        if (audioRecorder.isRecording()) {
+            lifecycleScope.launch {
+                audioRecorder.stopRecording()
+            }
         }
     }
 }
