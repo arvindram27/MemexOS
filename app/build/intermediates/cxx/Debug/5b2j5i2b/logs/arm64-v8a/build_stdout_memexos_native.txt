@@ -1,0 +1,30 @@
+ninja: Entering directory `C:\Users\Dhanalakshmi\MemexOS\app\.cxx\Debug\5b2j5i2b\arm64-v8a'
+[1/30] Building CXX object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/hbm.cpp.o
+[2/30] Building C object whisper/ggml/src/CMakeFiles/ggml-base.dir/ggml-alloc.c.o
+[3/30] Building CXX object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/amx/mmq.cpp.o
+[4/30] Building C object whisper/ggml/src/CMakeFiles/ggml-base.dir/ggml-quants.c.o
+[5/30] Building CXX object whisper/ggml/src/CMakeFiles/ggml-base.dir/ggml.cpp.o
+[6/30] Building C object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.c.o
+[7/30] Building CXX object whisper/ggml/src/CMakeFiles/ggml-base.dir/ggml-threading.cpp.o
+[8/30] Building CXX object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/amx/amx.cpp.o
+[9/30] Building CXX object CMakeFiles/memexos_native.dir/whisper_jni.cpp.o
+FAILED: CMakeFiles/memexos_native.dir/whisper_jni.cpp.o 
+C:\Users\Dhanalakshmi\Android\Sdk\ndk\25.2.9519653\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/Dhanalakshmi/Android/Sdk/ndk/25.2.9519653/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DGGML_USE_CPU -Dmemexos_native_EXPORTS -IC:/Users/Dhanalakshmi/MemexOS/app/src/main/cpp -IC:/Users/Dhanalakshmi/MemexOS/app/src/main/cpp/whisper -IC:/Users/Dhanalakshmi/MemexOS/app/src/main/cpp/whisper/include -IC:/Users/Dhanalakshmi/MemexOS/app/src/main/cpp/whisper/src/. -IC:/Users/Dhanalakshmi/MemexOS/app/src/main/cpp/whisper/src/../include -IC:/Users/Dhanalakshmi/MemexOS/app/src/main/cpp/whisper/ggml/src/../include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -std=c++17 -O3 -fexceptions -fno-limit-debug-info  -fPIC -march=armv8-a -std=c++11 -MD -MT CMakeFiles/memexos_native.dir/whisper_jni.cpp.o -MF CMakeFiles\memexos_native.dir\whisper_jni.cpp.o.d -o CMakeFiles/memexos_native.dir/whisper_jni.cpp.o -c C:/Users/Dhanalakshmi/MemexOS/app/src/main/cpp/whisper_jni.cpp
+C:/Users/Dhanalakshmi/MemexOS/app/src/main/cpp/whisper_jni.cpp:6:10: fatal error: 'whisper/whisper.h' file not found
+#include "whisper/whisper.h"
+         ^~~~~~~~~~~~~~~~~~~
+1 error generated.
+[10/30] Building C object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/quants.c.o
+[11/30] Building C object whisper/ggml/src/CMakeFiles/ggml-base.dir/ggml.c.o
+[12/30] Building CXX object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.cpp.o
+[13/30] Building CXX object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/traits.cpp.o
+[14/30] Building CXX object whisper/ggml/src/CMakeFiles/ggml-base.dir/ggml-backend.cpp.o
+[15/30] Building CXX object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/vec.cpp.o
+[16/30] Building CXX object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/arm/repack.cpp.o
+[17/30] Building CXX object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/repack.cpp.o
+[18/30] Building CXX object whisper/ggml/src/CMakeFiles/ggml-base.dir/ggml-opt.cpp.o
+[19/30] Building CXX object whisper/ggml/src/CMakeFiles/ggml.dir/ggml-backend-reg.cpp.o
+[20/30] Building CXX object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/binary-ops.cpp.o
+[21/30] Building CXX object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/unary-ops.cpp.o
+[22/30] Building CXX object whisper/ggml/src/CMakeFiles/ggml-base.dir/gguf.cpp.o
+ninja: build stopped: subcommand failed.
