@@ -54,6 +54,140 @@ std::vector<float> read_wav(const std::string& fname) {
     return pcmf32;
 }
 
+JNIEXPORT jlong JNICALL
+Java_com_memexos_app_whisper_WhisperService_initContext(
+        JNIEnv *env,
+        jobject /* this */,
+        jstring modelPath) {
+    
+    std::string model_path = jstring2string(env, modelPath);
+    LOGI("Initializing Whisper context with model: %s", model_path.c_str());
+    
+    struct whisper_context_params cparams = whisper_context_default_params();
+    struct whisper_context * ctx = whisper_init_from_file_with_params(model_path.c_str(), cparams);
+    
+    if (ctx == nullptr) {
+        LOGE("Failed to load model from: %s", model_path.c_str());
+        return 0L;
+    }
+    
+    LOGI("Whisper context initialized successfully");
+    return reinterpret_cast<jlong>(ctx);
+}
+
+JNIEXPORT jlong JNICALL
+Java_com_memexos_app_whisper_WhisperService_initContextFromAsset(
+        JNIEnv *env,
+        jobject /* this */,
+        jobject assetManager,
+        jstring assetPath) {
+    
+    std::string asset_path = jstring2string(env, assetPath);
+    LOGI("Initializing Whisper context from asset: %s", asset_path.c_str());
+    
+    // For now, we'll use file-based loading
+    // Asset loading would require additional Android Asset Manager integration
+    LOGE("Asset loading not yet implemented");
+    return 0L;
+}
+
+JNIEXPORT void JNICALL
+Java_com_memexos_app_whisper_WhisperService_freeContext(
+        JNIEnv *env,
+        jobject /* this */,
+        jlong contextPtr) {
+    
+    if (contextPtr != 0) {
+        struct whisper_context * ctx = reinterpret_cast<struct whisper_context *>(contextPtr);
+        whisper_free(ctx);
+        LOGI("Whisper context freed");
+    }
+}
+
+JNIEXPORT void JNICALL
+Java_com_memexos_app_whisper_WhisperService_fullTranscribe(
+        JNIEnv *env,
+        jobject /* this */,
+        jlong contextPtr,
+        jint numThreads,
+        jfloatArray audioData) {
+    
+    if (contextPtr == 0) {
+        LOGE("Invalid context pointer");
+        return;
+    }
+    
+    struct whisper_context * ctx = reinterpret_cast<struct whisper_context *>(contextPtr);
+    
+    // Get audio data from Java array
+    jfloat* audio = env->GetFloatArrayElements(audioData, nullptr);
+    jsize audioLength = env->GetArrayLength(audioData);
+    
+    LOGI("Processing %d audio samples with %d threads", audioLength, numThreads);
+    
+    // Configure whisper parameters
+    whisper_full_params wparams = whisper_full_default_params(WHISPER_SAMPLING_GREEDY);
+    wparams.print_progress   = false;
+    wparams.print_special    = false;
+    wparams.print_realtime   = false;
+    wparams.print_timestamps = false;
+    wparams.translate        = false;
+    wparams.language         = "en";
+    wparams.n_threads        = numThreads;
+    wparams.offset_ms        = 0;
+    wparams.duration_ms      = 0;
+    wparams.single_segment   = false;
+    wparams.max_tokens       = 0;
+    wparams.speed_up         = false;
+    wparams.audio_ctx        = 0;
+    
+    // Process audio
+    int result = whisper_full(ctx, wparams, audio, audioLength);
+    
+    // Release audio data
+    env->ReleaseFloatArrayElements(audioData, audio, JNI_ABORT);
+    
+    if (result != 0) {
+        LOGE("Failed to process audio, error code: %d", result);
+    } else {
+        LOGI("Audio processing completed successfully");
+    }
+}
+
+JNIEXPORT jint JNICALL
+Java_com_memexos_app_whisper_WhisperService_getTextSegmentCount(
+        JNIEnv *env,
+        jobject /* this */,
+        jlong contextPtr) {
+    
+    if (contextPtr == 0) {
+        LOGE("Invalid context pointer");
+        return 0;
+    }
+    
+    struct whisper_context * ctx = reinterpret_cast<struct whisper_context *>(contextPtr);
+    return whisper_full_n_segments(ctx);
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_memexos_app_whisper_WhisperService_getTextSegment(
+        JNIEnv *env,
+        jobject /* this */,
+        jlong contextPtr,
+        jint index) {
+    
+    if (contextPtr == 0) {
+        LOGE("Invalid context pointer");
+        return env->NewStringUTF("");
+    }
+    
+    struct whisper_context * ctx = reinterpret_cast<struct whisper_context *>(contextPtr);
+    const char * text = whisper_full_get_segment_text(ctx, index);
+    
+    return env->NewStringUTF(text ? text : "");
+}
+
+// Legacy method for backward compatibility
 JNIEXPORT jstring JNICALL
 Java_com_example_memexos_WhisperWrapper_nativeTranscribe(
         JNIEnv *env,
@@ -136,7 +270,7 @@ JNIEXPORT void JNICALL
 Java_com_example_memexos_WhisperWrapper_nativeInit(
         JNIEnv *env,
         jobject /* this */) {
-    LOGI("WhisperJNI initialized");
+    LOGI("WhisperJNI initialized (legacy)");
 }
 
 // Cleanup function
@@ -144,7 +278,7 @@ JNIEXPORT void JNICALL
 Java_com_example_memexos_WhisperWrapper_nativeCleanup(
         JNIEnv *env,
         jobject /* this */) {
-    LOGI("WhisperJNI cleanup");
+    LOGI("WhisperJNI cleanup (legacy)");
 }
 
 } // extern "C"

@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.media.AudioFormat
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
@@ -32,6 +33,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.memexos.app.audio.AudioRecorder
+import com.memexos.app.commands.VoiceCommandProcessor
 import com.memexos.app.whisper.WhisperService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -46,6 +48,16 @@ class MainActivity : AppCompatActivity() {
         private const val TAG = "MainActivity"
         private const val PERMISSION_REQUEST_RECORD_AUDIO = 1001
         private const val MAX_RECORDING_DURATION_MS = 60000L // 60 seconds
+        private const val AUDIO_SAMPLE_RATE = 16000
+        private const val AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT
+        private const val AUDIO_CHANNEL = AudioFormat.CHANNEL_IN_MONO
+        private const val MIN_AUDIO_BUFFER_MULTIPLIER = 4
+        private const val WHISPER_THREAD_COUNT = 4
+        private const val RECORDING_WARNING_THRESHOLD_MS = 10000L
+        private const val SCROLL_DISTANCE_PX = 500
+        private const val DEFAULT_URL = "https://www.google.com"
+        private const val GOOGLE_SEARCH_BASE_URL = "https://www.google.com/search?q="
+        private const val MODEL_PATH = "models/ggml-tiny.bin"
     }
     
     private lateinit var webView: WebView
@@ -59,6 +71,7 @@ class MainActivity : AppCompatActivity() {
     // Audio recording components
     private lateinit var audioRecorder: AudioRecorder
     private lateinit var whisperService: WhisperService
+    private lateinit var voiceCommandProcessor: VoiceCommandProcessor
     private var recordingDialog: AlertDialog? = null
     private var recordingTimer: CountDownTimer? = null
     private var pulseAnimator: ObjectAnimator? = null
@@ -88,22 +101,30 @@ class MainActivity : AppCompatActivity() {
         // Setup FABs
         setupFABs()
         
-        // Load initial URL (can be changed to any default URL)
-        webView.loadUrl("https://www.google.com")
+        // Initialize voice command processor
+        voiceCommandProcessor = VoiceCommandProcessor(this, webView)
+        
+        // Load initial URL
+        webView.loadUrl(DEFAULT_URL)
     }
     
     private fun initializeAudioComponents() {
         audioRecorder = AudioRecorder()
         whisperService = WhisperService(this)
         
-        // Initialize Whisper model (you'll need to place a model file in assets)
+        // Initialize Whisper model from assets
         lifecycleScope.launch {
             try {
-                // TODO: Add your Whisper model file to assets folder
-                // Example: whisperService.initializeFromAsset("models/ggml-tiny.bin")
-                Log.d(TAG, "Whisper service initialized")
+                val initialized = whisperService.initializeFromAsset(MODEL_PATH)
+                if (initialized) {
+                    Log.d(TAG, "Whisper service initialized successfully")
+                } else {
+                    Log.e(TAG, "Failed to initialize Whisper service - model not found or invalid")
+                    showModelMissingDialog()
+                }
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to initialize Whisper", e)
+                showModelMissingDialog()
             }
         }
     }
@@ -281,11 +302,20 @@ class MainActivity : AppCompatActivity() {
     private fun startAudioRecording(timerText: TextView, statusText: TextView) {
         recordingStartTime = System.currentTimeMillis()
         
-        // Create output file in cache directory
+        // Create output file in cache directory with validation
         val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
         val audioFile = File(cacheDir, "recording_$timestamp.wav")
         
-        // Start countdown timer (60 seconds max)
+        // Ensure cache directory exists
+        if (!cacheDir.exists()) {
+            if (!cacheDir.mkdirs()) {
+                Log.e(TAG, "Failed to create cache directory")
+                Toast.makeText(this, "Failed to create recording directory", Toast.LENGTH_LONG).show()
+                return
+            }
+        }
+        
+        // Start countdown timer
         recordingTimer = object : CountDownTimer(MAX_RECORDING_DURATION_MS, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val elapsed = System.currentTimeMillis() - recordingStartTime
@@ -294,8 +324,9 @@ class MainActivity : AppCompatActivity() {
                 timerText.text = String.format(Locale.US, "%02d:%02d", minutes, seconds)
                 
                 // Show warning when approaching limit
-                if (millisUntilFinished <= 10000) {
+                if (millisUntilFinished <= RECORDING_WARNING_THRESHOLD_MS) {
                     statusText.text = "Recording ending in ${millisUntilFinished / 1000}s..."
+                    statusText.setTextColor(ContextCompat.getColor(this@MainActivity, android.R.color.holo_red_dark))
                 }
             }
             
@@ -416,41 +447,8 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun executeCommand(command: String) {
-        val lowerCommand = command.toLowerCase(Locale.US)
-        
-        when {
-            lowerCommand.contains("search") || lowerCommand.contains("google") -> {
-                val query = command.replace(Regex("search|google|for", RegexOption.IGNORE_CASE), "").trim()
-                val searchUrl = "https://www.google.com/search?q=${query.replace(" ", "+")}"
-                webView.loadUrl(searchUrl)
-            }
-            lowerCommand.contains("go to") || lowerCommand.contains("navigate to") || lowerCommand.contains("open") -> {
-                val url = command.replace(Regex("go to|navigate to|open", RegexOption.IGNORE_CASE), "").trim()
-                loadUrl(url)
-            }
-            lowerCommand.contains("back") -> {
-                if (webView.canGoBack()) {
-                    webView.goBack()
-                }
-            }
-            lowerCommand.contains("forward") -> {
-                if (webView.canGoForward()) {
-                    webView.goForward()
-                }
-            }
-            lowerCommand.contains("refresh") || lowerCommand.contains("reload") -> {
-                webView.reload()
-            }
-            lowerCommand.contains("scroll down") -> {
-                webView.scrollBy(0, 500)
-            }
-            lowerCommand.contains("scroll up") -> {
-                webView.scrollBy(0, -500)
-            }
-            else -> {
-                Toast.makeText(this, "Command not recognized: $command", Toast.LENGTH_LONG).show()
-            }
-        }
+        Log.d(TAG, "Executing voice command: $command")
+        voiceCommandProcessor.processCommand(command)
     }
     
     private fun showProgressOverlay(message: String) {
@@ -460,6 +458,15 @@ class MainActivity : AppCompatActivity() {
     
     private fun hideProgressOverlay() {
         progressOverlay.visibility = View.GONE
+    }
+    
+    private fun showModelMissingDialog() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Whisper Model Missing")
+            .setMessage("The Whisper AI model is missing. Please ensure you have downloaded the model file and placed it in the assets/models folder. Run the download script: .\\download-whisper-model.ps1")
+            .setPositiveButton("OK", null)
+            .setCancelable(false)
+            .show()
     }
     
     override fun onBackPressed() {
