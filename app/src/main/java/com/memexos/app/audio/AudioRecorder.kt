@@ -13,14 +13,16 @@ import java.io.File
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 
+// Audio recording constants accessible to all classes in this file
+private const val SAMPLE_RATE = 16000
+private const val CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO
+private const val AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT
+private const val BUFFER_SIZE_MULTIPLIER = 4
+
 class AudioRecorder {
     
     companion object {
         private const val TAG = "AudioRecorder"
-        private const val SAMPLE_RATE = 16000
-        private const val CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO
-        private const val AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT
-        private const val BUFFER_SIZE_MULTIPLIER = 4
     }
     
     private val scope: CoroutineScope = CoroutineScope(
