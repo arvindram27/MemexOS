@@ -3,7 +3,7 @@
 #include <android/log.h>
 #include <vector>
 #include <sstream>
-#include "whisper/whisper.h"
+#include "whisper.h"
 
 #define LOG_TAG "WhisperJNI"
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
@@ -138,7 +138,6 @@ Java_com_memexos_app_whisper_WhisperService_fullTranscribe(
     wparams.duration_ms      = 0;
     wparams.single_segment   = false;
     wparams.max_tokens       = 0;
-    wparams.speed_up         = false;
     wparams.audio_ctx        = 0;
     
     // Process audio
@@ -232,7 +231,6 @@ Java_com_example_memexos_WhisperWrapper_nativeTranscribe(
     wparams.duration_ms      = 0;
     wparams.single_segment   = false;
     wparams.max_tokens       = 0;
-    wparams.speed_up         = false;
     wparams.audio_ctx        = 0;
     
     // Process audio
