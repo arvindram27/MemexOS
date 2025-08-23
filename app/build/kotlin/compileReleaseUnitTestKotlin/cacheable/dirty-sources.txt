@@ -1,0 +1,3 @@
+C:\Users\Dhanalakshmi\MemexOS\app\src\test\java\com\memexos\app\audio\AudioRecorderTest.kt
+C:\Users\Dhanalakshmi\MemexOS\app\src\test\java\com\memexos\app\commands\VoiceCommandProcessorTest.kt
+C:\Users\Dhanalakshmi\MemexOS\app\src\test\java\com\memexos\app\whisper\WhisperServiceTest.kt

@@ -16,5 +16,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "MemexOS"
 include(":app")
-include(":benchmark")
-includeBuild("build-logic")
+// Temporarily exclude benchmark module
+// include(":benchmark")
+// includeBuild("build-logic")

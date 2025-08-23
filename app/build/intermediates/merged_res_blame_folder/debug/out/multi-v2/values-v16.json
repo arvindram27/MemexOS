@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.memexos.app-mergeDebugResources-44:/values-v16/values-v16.xml",
+            "outputFile": "com.memexos.app-mergeDebugResources-48:/values-v16/values-v16.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Dhanalakshmi\\.gradle\\caches\\transforms-3\\feb996e1126d060116e812f55cc6b17e\\transformed\\appcompat-1.6.1\\res\\values-v16\\values-v16.xml",
+                    "source": "C:\\Users\\Dhanalakshmi\\.gradle\\caches\\transforms-3\\31a3aaa6e5c99719c2ac55f138f324cb\\transformed\\appcompat-1.6.1\\res\\values-v16\\values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Dhanalakshmi\\.gradle\\caches\\transforms-3\\8df21b44735c42c25834e95fdb89e00b\\transformed\\core-1.12.0\\res\\values-v16\\values-v16.xml",
+                    "source": "C:\\Users\\Dhanalakshmi\\.gradle\\caches\\transforms-3\\0d7c5cbcb01e185c3a5d6f04d5a61ee4\\transformed\\core-1.12.0\\res\\values-v16\\values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

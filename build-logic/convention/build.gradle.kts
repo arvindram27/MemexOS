@@ -19,9 +19,9 @@ tasks.withType<KotlinCompile>().configureEach {
 }
 
 dependencies {
-    compileOnly("com.android.tools.build:gradle:8.1.2")
-    compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10")
-    compileOnly("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.4")
+    compileOnly("com.android.tools.build:gradle:8.1.4")
+    compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.20")
+    compileOnly("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.5")
     compileOnly("org.jlleitschuh.gradle:ktlint-gradle:11.6.1")
 }
 

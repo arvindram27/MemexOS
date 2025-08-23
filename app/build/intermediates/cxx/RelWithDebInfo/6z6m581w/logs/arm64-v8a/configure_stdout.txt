@@ -1,0 +1,37 @@
+-- The C compiler identification is Clang 14.0.7
+-- The CXX compiler identification is Clang 14.0.7
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/Users/Dhanalakshmi/AppData/Local/Android/Sdk/ndk/25.2.9519653/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Users/Dhanalakshmi/AppData/Local/Android/Sdk/ndk/25.2.9519653/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found Git: C:/Program Files/Git/cmd/git.exe (found version "2.49.0.windows.1") 
+-- Setting GGML_NATIVE_DEFAULT to OFF
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Check if compiler accepts -pthread
+-- Check if compiler accepts -pthread - yes
+-- Found Threads: TRUE  
+-- Warning: ccache not found - consider installing it for faster compilation or disable this warning with GGML_CCACHE=OFF
+-- CMAKE_SYSTEM_PROCESSOR: aarch64
+-- GGML_SYSTEM_ARCH: ARM
+-- Including CPU backend
+-- Found OpenMP_C: -fopenmp=libomp (found version "5.0") 
+-- Found OpenMP_CXX: -fopenmp=libomp (found version "5.0") 
+-- Found OpenMP: TRUE (found version "5.0")  
+-- ARM detected
+-- Performing Test GGML_COMPILER_SUPPORTS_FP16_FORMAT_I3E
+-- Performing Test GGML_COMPILER_SUPPORTS_FP16_FORMAT_I3E - Failed
+-- Adding CPU backend variant ggml-cpu:  
+-- ggml version: 0.0.3064
+-- ggml commit:  fc45bb86
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/Users/Dhanalakshmi/MemexOS/app/.cxx/RelWithDebInfo/6z6m581w/arm64-v8a

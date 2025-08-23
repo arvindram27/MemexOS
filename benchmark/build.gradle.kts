@@ -1,7 +1,7 @@
 plugins {
     id("com.android.test")
     id("org.jetbrains.kotlin.android")
-    id("androidx.benchmark")
+    id("androidx.benchmark") version "1.2.1"
 }
 
 android {

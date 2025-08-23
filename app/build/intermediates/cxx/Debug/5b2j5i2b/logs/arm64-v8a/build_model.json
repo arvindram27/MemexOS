@@ -46,7 +46,7 @@
       "moduleBuildFile": "C:\\Users\\Dhanalakshmi\\MemexOS\\app\\build.gradle.kts",
       "makeFile": "C:\\Users\\Dhanalakshmi\\MemexOS\\app\\src\\main\\cpp\\CMakeLists.txt",
       "buildSystem": "CMAKE",
-      "ndkFolder": "C:\\Users\\Dhanalakshmi\\Android\\Sdk\\ndk\\25.2.9519653",
+      "ndkFolder": "C:\\Users\\Dhanalakshmi\\AppData\\Local\\Android\\Sdk\\ndk\\25.2.9519653",
       "ndkVersion": "25.2.9519653",
       "ndkSupportedAbiList": [
         "ARMEABI_V7A",
@@ -112,17 +112,17 @@
           "default": true
         }
       ],
-      "cmakeToolchainFile": "C:\\Users\\Dhanalakshmi\\Android\\Sdk\\ndk\\25.2.9519653\\build\\cmake\\android.toolchain.cmake",
+      "cmakeToolchainFile": "C:\\Users\\Dhanalakshmi\\AppData\\Local\\Android\\Sdk\\ndk\\25.2.9519653\\build\\cmake\\android.toolchain.cmake",
       "cmake": {
-        "cmakeExe": "C:\\Users\\Dhanalakshmi\\Android\\Sdk\\cmake\\3.22.1\\bin\\cmake.exe",
+        "cmakeExe": "C:\\Users\\Dhanalakshmi\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\cmake.exe",
         "cmakeVersionFromDsl": "3.22.1"
       },
       "stlSharedObjectMap": {
         "LIBCXX_SHARED": {
-          "ARMEABI_V7A": "C:\\Users\\Dhanalakshmi\\Android\\Sdk\\ndk\\25.2.9519653\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\arm-linux-androideabi\\libc++_shared.so",
-          "ARM64_V8A": "C:\\Users\\Dhanalakshmi\\Android\\Sdk\\ndk\\25.2.9519653\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\aarch64-linux-android\\libc++_shared.so",
-          "X86": "C:\\Users\\Dhanalakshmi\\Android\\Sdk\\ndk\\25.2.9519653\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\i686-linux-android\\libc++_shared.so",
-          "X86_64": "C:\\Users\\Dhanalakshmi\\Android\\Sdk\\ndk\\25.2.9519653\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\x86_64-linux-android\\libc++_shared.so"
+          "ARMEABI_V7A": "C:\\Users\\Dhanalakshmi\\AppData\\Local\\Android\\Sdk\\ndk\\25.2.9519653\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\arm-linux-androideabi\\libc++_shared.so",
+          "ARM64_V8A": "C:\\Users\\Dhanalakshmi\\AppData\\Local\\Android\\Sdk\\ndk\\25.2.9519653\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\aarch64-linux-android\\libc++_shared.so",
+          "X86": "C:\\Users\\Dhanalakshmi\\AppData\\Local\\Android\\Sdk\\ndk\\25.2.9519653\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\i686-linux-android\\libc++_shared.so",
+          "X86_64": "C:\\Users\\Dhanalakshmi\\AppData\\Local\\Android\\Sdk\\ndk\\25.2.9519653\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\x86_64-linux-android\\libc++_shared.so"
         },
         "LIBCXX_STATIC": {},
         "NONE": {},
@@ -130,13 +130,13 @@
       },
       "project": {
         "rootBuildGradleFolder": "C:\\Users\\Dhanalakshmi\\MemexOS",
-        "sdkFolder": "C:\\Users\\Dhanalakshmi\\Android\\Sdk",
+        "sdkFolder": "C:\\Users\\Dhanalakshmi\\AppData\\Local\\Android\\Sdk",
         "isBuildOnlyTargetAbiEnabled": true,
         "isCmakeBuildCohabitationEnabled": false,
         "isPrefabEnabled": false
       },
       "outputOptions": [],
-      "ninjaExe": "C:\\Users\\Dhanalakshmi\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+      "ninjaExe": "C:\\Users\\Dhanalakshmi\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
       "hasBuildTimeInformation": true
     },
     "prefabClassPaths": [],
@@ -160,10 +160,10 @@
     "-DANDROID_PLATFORM\u003dandroid-24",
     "-DANDROID_ABI\u003darm64-v8a",
     "-DCMAKE_ANDROID_ARCH_ABI\u003darm64-v8a",
-    "-DANDROID_NDK\u003dC:\\Users\\Dhanalakshmi\\Android\\Sdk\\ndk\\25.2.9519653",
-    "-DCMAKE_ANDROID_NDK\u003dC:\\Users\\Dhanalakshmi\\Android\\Sdk\\ndk\\25.2.9519653",
-    "-DCMAKE_TOOLCHAIN_FILE\u003dC:\\Users\\Dhanalakshmi\\Android\\Sdk\\ndk\\25.2.9519653\\build\\cmake\\android.toolchain.cmake",
-    "-DCMAKE_MAKE_PROGRAM\u003dC:\\Users\\Dhanalakshmi\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+    "-DANDROID_NDK\u003dC:\\Users\\Dhanalakshmi\\AppData\\Local\\Android\\Sdk\\ndk\\25.2.9519653",
+    "-DCMAKE_ANDROID_NDK\u003dC:\\Users\\Dhanalakshmi\\AppData\\Local\\Android\\Sdk\\ndk\\25.2.9519653",
+    "-DCMAKE_TOOLCHAIN_FILE\u003dC:\\Users\\Dhanalakshmi\\AppData\\Local\\Android\\Sdk\\ndk\\25.2.9519653\\build\\cmake\\android.toolchain.cmake",
+    "-DCMAKE_MAKE_PROGRAM\u003dC:\\Users\\Dhanalakshmi\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
     "-DCMAKE_CXX_FLAGS\u003d-std\u003dc++17 -O3 -fexceptions",
     "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY\u003dC:\\Users\\Dhanalakshmi\\MemexOS\\app\\build\\intermediates\\cxx\\Debug\\5b2j5i2b\\obj\\arm64-v8a",
     "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY\u003dC:\\Users\\Dhanalakshmi\\MemexOS\\app\\build\\intermediates\\cxx\\Debug\\5b2j5i2b\\obj\\arm64-v8a",
@@ -174,6 +174,6 @@
     "-DWHISPER_BUILD_TESTS\u003dOFF",
     "-DWHISPER_BUILD_EXAMPLES\u003dOFF"
   ],
-  "stlLibraryFile": "C:\\Users\\Dhanalakshmi\\Android\\Sdk\\ndk\\25.2.9519653\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\aarch64-linux-android\\libc++_shared.so",
+  "stlLibraryFile": "C:\\Users\\Dhanalakshmi\\AppData\\Local\\Android\\Sdk\\ndk\\25.2.9519653\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\aarch64-linux-android\\libc++_shared.so",
   "intermediatesParentFolder": "C:\\Users\\Dhanalakshmi\\MemexOS\\app\\build\\intermediates\\cxx\\Debug\\5b2j5i2b"
 }

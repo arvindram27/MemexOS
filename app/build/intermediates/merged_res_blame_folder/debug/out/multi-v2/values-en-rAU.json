@@ -1,27 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.memexos.app-mergeDebugResources-44:/values-en-rAU/values-en-rAU.xml",
+            "outputFile": "com.memexos.app-mergeDebugResources-48:/values-en-rAU/values-en-rAU.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Dhanalakshmi\\.gradle\\caches\\transforms-3\\30866d52e7786580d7d5dfb3b3de46b9\\transformed\\ui-1.0.1\\res\\values-en-rAU\\values-en-rAU.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,197,279,373,455,555,644,728,793,857,930,996",
-                        "endColumns": "91,81,93,81,99,88,83,64,63,72,65,120",
-                        "endOffsets": "192,274,368,450,550,639,723,788,852,925,991,1112"
-                    },
-                    "to": {
-                        "startLines": "36,37,38,39,40,41,42,43,44,46,48,49",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "3481,3573,3655,3749,3831,3931,4020,4104,4169,4316,4490,4556",
-                        "endColumns": "91,81,93,81,99,88,83,64,63,72,65,120",
-                        "endOffsets": "3568,3650,3744,3826,3926,4015,4099,4164,4228,4384,4551,4672"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Dhanalakshmi\\.gradle\\caches\\transforms-3\\8df21b44735c42c25834e95fdb89e00b\\transformed\\core-1.12.0\\res\\values-en-rAU\\values-en-rAU.xml",
+                    "source": "C:\\Users\\Dhanalakshmi\\.gradle\\caches\\transforms-3\\0d7c5cbcb01e185c3a5d6f04d5a61ee4\\transformed\\core-1.12.0\\res\\values-en-rAU\\values-en-rAU.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -38,7 +21,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Dhanalakshmi\\.gradle\\caches\\transforms-3\\feb996e1126d060116e812f55cc6b17e\\transformed\\appcompat-1.6.1\\res\\values-en-rAU\\values-en-rAU.xml",
+                    "source": "C:\\Users\\Dhanalakshmi\\.gradle\\caches\\transforms-3\\2f660776349bf9b51231d21f24226ba3\\transformed\\ui-1.0.1\\res\\values-en-rAU\\values-en-rAU.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,197,279,373,455,555,644,728,793,857,930,996",
+                        "endColumns": "91,81,93,81,99,88,83,64,63,72,65,120",
+                        "endOffsets": "192,274,368,450,550,639,723,788,852,925,991,1112"
+                    },
+                    "to": {
+                        "startLines": "36,37,38,39,40,41,42,43,44,46,48,49",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "3481,3573,3655,3749,3831,3931,4020,4104,4169,4316,4490,4556",
+                        "endColumns": "91,81,93,81,99,88,83,64,63,72,65,120",
+                        "endOffsets": "3568,3650,3744,3826,3926,4015,4099,4164,4228,4384,4551,4672"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Dhanalakshmi\\.gradle\\caches\\transforms-3\\31a3aaa6e5c99719c2ac55f138f324cb\\transformed\\appcompat-1.6.1\\res\\values-en-rAU\\values-en-rAU.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

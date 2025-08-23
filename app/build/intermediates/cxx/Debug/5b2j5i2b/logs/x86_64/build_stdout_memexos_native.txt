@@ -1,0 +1,2 @@
+ninja: Entering directory `C:\Users\Dhanalakshmi\MemexOS\app\.cxx\Debug\5b2j5i2b\x86_64'
+ninja: no work to do.

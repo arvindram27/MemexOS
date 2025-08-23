@@ -1,38 +1,58 @@
 [
     {
-        "merged": "com.memexos.app-merged_res-46:/drawable_ic_launcher_foreground.xml.flat",
-        "source": "com.memexos.app-main-48:/drawable/ic_launcher_foreground.xml"
+        "merged": "com.memexos.app-merged_res-50:/drawable_circle_mic_pulse.xml.flat",
+        "source": "com.memexos.app-main-52:/drawable/circle_mic_pulse.xml"
     },
     {
-        "merged": "com.memexos.app-merged_res-46:/mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "com.memexos.app-main-48:/mipmap-anydpi-v26/ic_launcher.xml"
+        "merged": "com.memexos.app-merged_res-50:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.memexos.app-main-52:/drawable/ic_launcher_foreground.xml"
     },
     {
-        "merged": "com.memexos.app-merged_res-46:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "com.memexos.app-main-48:/mipmap-anydpi-v26/ic_launcher_round.xml"
+        "merged": "com.memexos.app-merged_res-50:/drawable_circle_mic_background.xml.flat",
+        "source": "com.memexos.app-main-52:/drawable/circle_mic_background.xml"
     },
     {
-        "merged": "C:\\Users\\Dhanalakshmi\\.gradle\\daemon\\8.4\\com.memexos.app-merged_res-46:\\drawable_ic_settings.xml.flat",
-        "source": "C:\\Users\\Dhanalakshmi\\.gradle\\daemon\\8.4\\com.memexos.app-main-48:\\drawable\\ic_settings.xml"
+        "merged": "com.memexos.app-merged_res-50:/xml_data_extraction_rules.xml.flat",
+        "source": "com.memexos.app-main-52:/xml/data_extraction_rules.xml"
     },
     {
-        "merged": "C:\\Users\\Dhanalakshmi\\.gradle\\daemon\\8.4\\com.memexos.app-merged_res-46:\\xml_backup_rules.xml.flat",
-        "source": "C:\\Users\\Dhanalakshmi\\.gradle\\daemon\\8.4\\com.memexos.app-main-48:\\xml\\backup_rules.xml"
+        "merged": "com.memexos.app-merged_res-50:/drawable_ic_settings.xml.flat",
+        "source": "com.memexos.app-main-52:/drawable/ic_settings.xml"
     },
     {
-        "merged": "C:\\Users\\Dhanalakshmi\\.gradle\\daemon\\8.4\\com.memexos.app-merged_res-46:\\drawable_ic_microphone.xml.flat",
-        "source": "C:\\Users\\Dhanalakshmi\\.gradle\\daemon\\8.4\\com.memexos.app-main-48:\\drawable\\ic_microphone.xml"
+        "merged": "com.memexos.app-merged_res-50:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.memexos.app-main-52:/mipmap-anydpi-v26/ic_launcher.xml"
     },
     {
-        "merged": "com.memexos.app-merged_res-46:/drawable_ic_launcher_background.xml.flat",
-        "source": "com.memexos.app-main-48:/drawable/ic_launcher_background.xml"
+        "merged": "com.memexos.app-merged_res-50:/drawable_waveform_background.xml.flat",
+        "source": "com.memexos.app-main-52:/drawable/waveform_background.xml"
     },
     {
-        "merged": "C:\\Users\\Dhanalakshmi\\.gradle\\daemon\\8.4\\com.memexos.app-merged_res-46:\\layout_activity_main.xml.flat",
-        "source": "C:\\Users\\Dhanalakshmi\\.gradle\\daemon\\8.4\\com.memexos.app-main-48:\\layout\\activity_main.xml"
+        "merged": "com.memexos.app-merged_res-50:/xml_backup_rules.xml.flat",
+        "source": "com.memexos.app-main-52:/xml/backup_rules.xml"
     },
     {
-        "merged": "C:\\Users\\Dhanalakshmi\\.gradle\\daemon\\8.4\\com.memexos.app-merged_res-46:\\xml_data_extraction_rules.xml.flat",
-        "source": "C:\\Users\\Dhanalakshmi\\.gradle\\daemon\\8.4\\com.memexos.app-main-48:\\xml\\data_extraction_rules.xml"
+        "merged": "com.memexos.app-merged_res-50:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.memexos.app-main-52:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.memexos.app-merged_res-50:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.memexos.app-main-52:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.memexos.app-merged_res-50:/drawable_ic_stop.xml.flat",
+        "source": "com.memexos.app-main-52:/drawable/ic_stop.xml"
+    },
+    {
+        "merged": "com.memexos.app-merged_res-50:/drawable_ic_microphone.xml.flat",
+        "source": "com.memexos.app-main-52:/drawable/ic_microphone.xml"
+    },
+    {
+        "merged": "com.memexos.app-merged_res-50:/layout_dialog_recording.xml.flat",
+        "source": "com.memexos.app-main-52:/layout/dialog_recording.xml"
+    },
+    {
+        "merged": "com.memexos.app-merged_res-50:/layout_activity_main.xml.flat",
+        "source": "com.memexos.app-main-52:/layout/activity_main.xml"
     }
 ]

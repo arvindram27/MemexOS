@@ -1,0 +1,2 @@
+ninja: Entering directory `C:\Users\Dhanalakshmi\MemexOS\app\.cxx\RelWithDebInfo\6z6m581w\arm64-v8a'
+ninja: no work to do.
