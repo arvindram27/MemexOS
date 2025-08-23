@@ -1,0 +1,132 @@
+[versions]
+# Core Android
+android-gradle-plugin = "8.1.2"
+kotlin = "1.9.10"
+compileSdk = "34"
+minSdk = "24"
+targetSdk = "34"
+
+# AndroidX
+androidx-core-ktx = "1.12.0"
+androidx-lifecycle = "2.7.0"
+androidx-activity = "1.8.2"
+androidx-appcompat = "1.6.1"
+androidx-constraintlayout = "2.1.4"
+androidx-webkit = "1.9.0"
+androidx-test-ext-junit = "1.1.5"
+androidx-espresso = "3.5.1"
+androidx-test-core = "1.5.0"
+androidx-test-runner = "1.5.2"
+androidx-test-rules = "1.5.0"
+androidx-benchmark = "1.2.1"
+
+# Testing
+junit4 = "4.13.2"
+junit5 = "5.10.1"
+mockito = "5.5.0"
+mockito-kotlin = "5.1.0"
+mockk = "1.13.8"
+robolectric = "4.11.1"
+truth = "1.1.4"
+turbine = "1.0.0"
+coroutines-test = "1.7.3"
+
+# Static Analysis
+detekt = "1.23.4"
+ktlint-gradle = "11.6.1"
+
+# Performance & Debugging
+leakcanary = "2.12"
+okhttp-mockwebserver = "4.12.0"
+
+# UI Testing
+uiautomator = "2.2.0"
+androidx-benchmark-macro = "1.2.1"
+androidx-profileinstaller = "1.3.1"
+
+# Other
+material = "1.11.0"
+kotlinx-coroutines = "1.7.3"
+
+[libraries]
+# Core Android
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
+androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidx-activity" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
+androidx-webkit = { group = "androidx.webkit", name = "webkit", version.ref = "androidx-webkit" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+
+# Testing - Unit
+junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
+junit-jupiter-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit5" }
+junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit5" }
+junit-vintage-engine = { group = "org.junit.vintage", name = "junit-vintage-engine", version.ref = "junit5" }
+mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
+mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockito-kotlin" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
+truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines-test" }
+
+# Testing - Android
+androidx-test-core = { group = "androidx.test", name = "core", version.ref = "androidx-test-core" }
+androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
+androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidx-test-runner" }
+androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "androidx-test-rules" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-espresso" }
+androidx-espresso-web = { group = "androidx.test.espresso", name = "espresso-web", version.ref = "androidx-espresso" }
+androidx-espresso-contrib = { group = "androidx.test.espresso", name = "espresso-contrib", version.ref = "androidx-espresso" }
+androidx-espresso-intents = { group = "androidx.test.espresso", name = "espresso-intents", version.ref = "androidx-espresso" }
+androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
+
+# Benchmarking
+androidx-benchmark-macro = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "androidx-benchmark-macro" }
+androidx-profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "androidx-profileinstaller" }
+
+# Debugging
+leakcanary-android = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
+
+# Mock Server
+okhttp-mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "okhttp-mockwebserver" }
+
+[bundles]
+testing-unit = [
+    "junit4",
+    "junit-jupiter-api",
+    "mockito-core",
+    "mockito-kotlin",
+    "truth",
+    "kotlinx-coroutines-test",
+    "robolectric",
+    "turbine"
+]
+
+testing-android = [
+    "androidx-test-core",
+    "androidx-test-ext-junit",
+    "androidx-test-runner",
+    "androidx-test-rules",
+    "androidx-espresso-core",
+    "androidx-espresso-web",
+    "androidx-espresso-contrib",
+    "androidx-espresso-intents",
+    "androidx-uiautomator"
+]
+
+testing-engines = [
+    "junit-jupiter-engine",
+    "junit-vintage-engine"
+]
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-gradle" }
+android-test = { id = "com.android.test", version.ref = "android-gradle-plugin" }
+benchmark = { id = "androidx.benchmark", version.ref = "androidx-benchmark" }

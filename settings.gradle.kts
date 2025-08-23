@@ -16,3 +16,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "MemexOS"
 include(":app")
+include(":benchmark")
+includeBuild("build-logic")

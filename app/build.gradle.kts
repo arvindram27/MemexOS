@@ -1,6 +1,9 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("memexos.android.test")
+    id("memexos.static.analysis")
+    id("memexos.performance.test")
 }
 
 android {
@@ -83,7 +86,9 @@ dependencies {
     implementation("androidx.webkit:webkit:1.9.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    // LeakCanary for memory leak detection (debug builds only)
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.12")
+    
+    // Test dependencies are now managed by the convention plugins
+    // Additional specific dependencies can be added here if needed
 }
